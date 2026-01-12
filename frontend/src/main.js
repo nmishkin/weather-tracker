@@ -6,11 +6,12 @@ const loader = document.querySelector('#loader');
 
 trackBtn.addEventListener('click', async () => {
   const threshold = parseInt(document.querySelector('#threshold').value);
+  const consecutiveDays = parseInt(document.querySelector('#consecutive-days').value);
   const citiesInput = document.querySelector('#cities').value;
   const cities = citiesInput.split(',').map(c => c.trim()).filter(c => c.length > 0);
 
-  if (isNaN(threshold) || cities.length === 0) {
-    alert('Please enter a valid threshold and at least one city.');
+  if (isNaN(threshold) || isNaN(consecutiveDays) || cities.length === 0) {
+    alert('Please enter a valid threshold, consecutive days, and at least one city.');
     return;
   }
 
@@ -24,7 +25,7 @@ trackBtn.addEventListener('click', async () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ threshold, cities }),
+      body: JSON.stringify({ threshold, cities, consecutive_days: consecutiveDays }),
     });
 
     if (!response.ok) {
@@ -32,7 +33,7 @@ trackBtn.addEventListener('click', async () => {
     }
 
     const data = await response.json();
-    renderResults(data.results, threshold);
+    renderResults(data.results, threshold, consecutiveDays);
   } catch (error) {
     console.error('Error fetching weather data:', error);
     resultsContainer.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #f87171;">Error: Could not connect to the backend server. Make sure the FastAPI server is running.</p>`;
@@ -41,7 +42,7 @@ trackBtn.addEventListener('click', async () => {
   }
 });
 
-function renderResults(results, threshold) {
+function renderResults(results, threshold, consecutiveDays) {
   if (results.length === 0) {
     resultsContainer.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #94a3b8;">No data found for the specified cities.</p>`;
     return;
@@ -52,7 +53,7 @@ function renderResults(results, threshold) {
     card.className = 'city-card';
 
     const badgeClass = city.meets_criteria ? 'met' : 'not-met';
-    const badgeText = city.meets_criteria ? 'Wait for it!' : 'Maybe later';
+    const badgeText = city.meets_criteria ? `🔥 ${consecutiveDays}+ Days Over ${threshold}°` : `Not ${consecutiveDays}+ days`;
 
     card.innerHTML = `
             <div class="city-header">
@@ -61,7 +62,7 @@ function renderResults(results, threshold) {
                   <div style="font-size: 0.75rem; color: #64748b; margin-top: 0.25rem;">Florida, USA</div>
                 </div>
                 <div class="criteria-badge ${badgeClass}">
-                    ${city.meets_criteria ? '🔥 3+ Days Over ' + threshold + '°' : 'Not 3+ days'}
+                    ${badgeText}
                 </div>
             </div>
             <table class="forecast-table">

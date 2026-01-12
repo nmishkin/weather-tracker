@@ -35,7 +35,7 @@ def get_weather_forecast(lat, lon):
         print(f"Error fetching weather: {e}")
         return None
 
-def analyze_city(city_name, threshold):
+def analyze_city(city_name, threshold, consecutive_days=3):
     """
     Analyze weather for a city and return forecast if criteria are met.
     """
@@ -52,14 +52,14 @@ def analyze_city(city_name, threshold):
     max_temps = daily["temperature_2m_max"]
     min_temps = daily["temperature_2m_min"]
 
-    # Check for at least three consecutive days with predicted high >= threshold
+    # Check for at least N consecutive days with predicted high >= threshold
     consecutive_count = 0
     meets_criteria = False
     
     for temp in max_temps:
         if temp is not None and temp >= threshold:
             consecutive_count += 1
-            if consecutive_count >= 3:
+            if consecutive_count >= consecutive_days:
                 meets_criteria = True
                 break
         else:

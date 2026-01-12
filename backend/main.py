@@ -18,12 +18,13 @@ app.add_middleware(
 class AnalysisRequest(BaseModel):
     threshold: int
     cities: List[str]
+    consecutive_days: int
 
 @app.post("/analyze")
 async def analyze_weather(request: AnalysisRequest):
     results = []
     for city in request.cities:
-        res = analyze_city(city, request.threshold)
+        res = analyze_city(city, request.threshold, request.consecutive_days)
         if "error" not in res:
             results.append(res)
 

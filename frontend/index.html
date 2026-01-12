@@ -1,37 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Florida Weather Tracker</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="app">
-      <h1>Florida Warmth Tracker</h1>
-      
-      <div class="search-container">
-        <div class="form-group">
-          <label for="threshold">Temperature Threshold (°F)</label>
-          <input type="number" id="threshold" value="80" placeholder="e.g., 80">
-        </div>
-        <div class="form-group">
-          <label for="cities">Cities to Track</label>
-          <input type="text" id="cities" value="Miami, Orlando, Tampa, Jacksonville" placeholder="e.g., Miami, Orlando">
-          <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Separate city names with commas.</p>
-        </div>
-        <button id="track-btn">Check Florida Cities</button>
-      </div>
 
-      <div id="loader" class="loader"></div>
-      
-      <div id="results" class="results-grid">
-        <!-- Results will be injected here -->
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Florida Weather Tracker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="app">
+    <h1>Florida Warmth Tracker</h1>
+
+    <div class="search-container">
+      <div class="form-group">
+        <label for="threshold">Temperature Threshold (°F)</label>
+        <input type="number" id="threshold" value="75" placeholder="e.g., 75">
       </div>
+      <div class="form-group">
+        <label for="consecutive-days">Consecutive Days Count</label>
+        <input type="number" id="consecutive-days" value="4" placeholder="e.g., 4" min="1" max="14">
+      </div>
+      <div class="form-group">
+        <label for="cities">Cities to Track</label>
+        <input type="text" id="cities" value="Sarasota" placeholder="e.g., Sarasota, Miami">
+        <p style="font-size: 0.75rem; color: #64748b; margin-top: 0.5rem;">Separate city names with commas.</p>
+      </div>
+      <button id="track-btn">Check Florida Cities</button>
     </div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+    <div id="loader" class="loader"></div>
+
+    <div id="results" class="results-grid">
+      <!-- Results will be injected here -->
+    </div>
+  </div>
+  <script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
